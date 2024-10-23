@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<h2>About</h2>
+
+<div>
+
+    <p>{{  about  }}</p>
+
+    <p>A website by {{  author  }} </p>    <!-- two curly braces used for variables in templates-->
+
+    <!--  another loop example:  -->
+
+    {% for letter in 'wishlist' %}
+    <p> {{ letter  }}</p>
+    {%  endfor  %}
+    <!--   or if statement:  -->
+    {% if author %}
+    <p>The author's name has been provided</p>
+
+    {% else %}
+    <p> The author's name has not been provided </p>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+</html>

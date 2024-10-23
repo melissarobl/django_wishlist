@@ -1,0 +1,28 @@
+<h2>Travel Wishlist</h2>
+
+<form method="POST" action="{% url 'place_list' %}">
+<!--  URL reversing -->
+        {% csrf_token %}
+        {{ new_place_form }}
+        <button type="submit">Add</button>
+</form>
+<!--  This is a 'for' loop in the template.  For every place in places list, create this piece of HTML. This HTML will be repeated x times.  -->
+{% for place in places %}
+
+
+<div>
+        {{  place.name  }}
+
+        <form method="Post" action="{%  url 'place_was_visited' place.pk  %}">
+                {% csrf_token %}
+        <button>Visited!</button>
+        </form>
+</div>
+
+{% empty %}  <!--  if 'places' is empty, text below is rendered  -->
+
+<p>You have no places in your wishlist</p>
+
+{% endfor %}
+
+<a href="{%url 'places_visited' %}">Places you've visited</a>
