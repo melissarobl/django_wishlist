@@ -1,23 +1,25 @@
+{% extends 'travel_wishlist/base.html' %} <!--  wishlist template will look for bast template  -->
+{% block content %}
+
 <h2>Travel Wishlist</h2>
 
 <form method="POST" action="{% url 'place_list' %}">
 <!--  URL reversing -->
         {% csrf_token %}
         {{ new_place_form }}
-        <button type="submit">Add</button>
+        <button id="add-new-place" type="submit">Add</button>
 </form>
 <!--  This is a 'for' loop in the template.  For every place in places list, create this piece of HTML. This HTML will be repeated x times.  -->
 {% for place in places %}
 
 
-<div>
-        {{  place.name  }}
-
-        <form method="Post" action="{%  url 'place_was_visited' place.pk  %}">
-                {% csrf_token %}
-        <button>Visited!</button>
-        </form>
-</div>
+        <div class="wishlist-place">
+                <span class="place-name">{{  place.name  }}</span>
+                <form class="visited-form" method="POST" action="{% url 'place_was_visited' place.pk %}">
+                        {% csrf_token %}
+                <button>Visited!</button>
+                </form>
+        </div>
 
 {% empty %}  <!--  if 'places' is empty, text below is rendered  -->
 
@@ -25,4 +27,4 @@
 
 {% endfor %}
 
-<a href="{%url 'places_visited' %}">Places you've visited</a>
+{% endblock %}
