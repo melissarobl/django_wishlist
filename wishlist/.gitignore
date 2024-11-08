@@ -6,10 +6,6 @@ db.sqlite3
 venv/
 .exe
 .virtualenv
-.venv/Scripts
-venv
-.venv
 scripts
 .venv/
-
 

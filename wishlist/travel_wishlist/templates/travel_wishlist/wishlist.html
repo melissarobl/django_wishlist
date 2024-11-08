@@ -1,4 +1,4 @@
-{% extends 'travel_wishlist/base.html' %} <!--  wishlist template will look for bast template  -->
+{% extends 'travel_wishlist/base.html' %} <!--  wishlist template will look for base template  -->
 {% block content %}
 
 <h2>Travel Wishlist</h2>
@@ -14,10 +14,12 @@
 
 
         <div class="wishlist-place">
-                <span class="place-name">{{  place.name  }}</span>
+                <span id="place-name-{{ place.pk }}" class="place-name">
+                       <a href="{% url 'place_details' place.pk %} ">{{ place.name }}</a>
+                </span>
                 <form class="visited-form" method="POST" action="{% url 'place_was_visited' place.pk %}">
                         {% csrf_token %}
-                <button>Visited!</button>
+                        <button id="visited-button-{{ place.pk  }}" type="submit">Visited!</button>
                 </form>
         </div>
 

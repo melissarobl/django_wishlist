@@ -7,15 +7,18 @@
 
     <ul>
         {% for place in visited %}
-            <li>{{  place.name  }}</li>
+            <li>
+                <a href="{% url 'place_details' place.pk %}">{{  place.name  }}</a>
+            </li>
         <!--   create list item for every place in visited -->
         {% endfor %}
     </ul>
 
     {%  else  %}
+         <p>You have not visited any places yet.</p>
 
-    <p>You have not visited any places yet.</p>
 
     {% endif %}
+
 
     {% endblock %}
