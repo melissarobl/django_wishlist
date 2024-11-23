@@ -8,4 +8,5 @@ venv/
 .virtualenv
 scripts
 .venv/
+app.yaml
 

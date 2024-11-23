@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)%f3z85p=)&9^1!3t5(xzf$vte80wfx34(4yag)m0&pv8ems+v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,12 +75,26 @@ WSGI_APPLICATION = 'wishlist.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+# Default settings - will work at App Engine GCP
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'places',
+        'USER': 'traveler',
+        'PASSWORD': os.getenv('TRAVELER_PW'),
+        'HOST': '/cloudsql/wishlist-django-442619:us-central1:wishlist-db-mysql',
+        'PORT': '3306'
     }
 }
+
+# connect to the same db when this code is running on our computer
+# here, we need to connect via the cloud proxy
+# test if we are running locally and modify db settings for local development
+
+if not os.getenv('GAE_INSTANCE'):
+    # app is not running at GAE, use local settings
+    DATABASES['default']['HOST'] = '127.0.0.1'
 
 
 # Password validation
