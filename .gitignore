@@ -7,8 +7,7 @@ wishlist/db.sqlite3
 venv
 .venv
 wishlist/app.yaml
-travel_credentials.json
-
+wishlist/travel_credentials.json
 
 
 

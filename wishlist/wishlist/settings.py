@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from google.oauth2 import service_account
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)%f3z85p=)&9^1!3t5(xzf$vte80wfx34(4yag)m0&pv8ems+v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.getenv('GAE_INSTANCE'):
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,8 +99,13 @@ DATABASES = {
 
 if not os.getenv('GAE_INSTANCE'):
     # app is not running at GAE, use local settings
-    DATABASES['default']['HOST'] = '127.0.0.1'
-
+    # DATABASES['default']['HOST'] = '127.0.0.1'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -130,15 +140,27 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+# Specify location to copy static files to when running python manage.py collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
 
-STATIC_URL = 'static/'
-
-MEDIA_URL = '/media/'
-
+# Where in the file system to save user-uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
+if not os.getenv('GAE_INSTANCE'):  # not running at GCP -local development
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+else: # else, running at GCP
+    GS_STATIC_FILE_BUCKET = 'wishlist-django-442619.appspot.com'
+    STATIC_URL = f'https://storage.cloud.google.com/{GS_STATIC_FILE_BUCKET}/static/'
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'users_wishlist_image_uploads'  # the media bucket name
+    MEDIA_URL = f'https://storage.cloud.google.com/{GS_BUCKET_NAME}/media/'
+
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file('travel_credentials.json')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
