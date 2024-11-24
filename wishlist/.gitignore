@@ -2,11 +2,11 @@
 __pycache__
 .idea
 .vscode
-db.sqlite3
+../db.sqlite3
 venv/
 .exe
 .virtualenv
 scripts
 .venv/
 app.yaml
-
+travel_credentials.json

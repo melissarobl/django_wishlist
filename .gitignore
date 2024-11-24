@@ -2,11 +2,12 @@
 __pycache__
 .idea
 .vscode
-db.sqlite3
+wishlist/db.sqlite3
 .venv/
 venv
 .venv
-app.yaml
+wishlist/app.yaml
+travel_credentials.json
 
 
 
