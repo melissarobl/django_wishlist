@@ -154,11 +154,19 @@ else: # else, running at GCP
     GS_STATIC_FILE_BUCKET = 'wishlist-django-442619.appspot.com'
     STATIC_URL = f'https://storage.cloud.google.com/{GS_STATIC_FILE_BUCKET}/static/'
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    #DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
     GS_BUCKET_NAME = 'users_wishlist_image_uploads'  # the media bucket name
     MEDIA_URL = f'https://storage.cloud.google.com/{GS_BUCKET_NAME}/media/'
-
     GS_CREDENTIALS = service_account.Credentials.from_service_account_file('travel_credentials.json')
+
+    STORAGES = {
+        'staticfiles':{
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+        'default':{
+            'BACKEND': 'storages.backends.gcloud.GoogleCloudStorage',
+        }
+    }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
